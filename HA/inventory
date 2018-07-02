@@ -1,0 +1,13 @@
+[all]
+node1 ansible_host=192.168.200.10
+node2 ansible_host=192.168.200.20
+front1 ansible_host=192.168.200.30
+front2 ansible_host=192.168.200.40
+
+[nodes]
+node1
+node2
+
+[fronts]
+front1
+front2

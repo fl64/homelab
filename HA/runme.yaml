@@ -1,0 +1,9 @@
+---
+- name: Deploy base apps
+  hosts: nodes
+  become: true
+
+  roles:
+    - epel
+
+

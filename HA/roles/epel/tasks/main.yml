@@ -1,0 +1,21 @@
+---
+# tasks file for base
+- name: Check if EPEL exists
+  stat: path={{ epel_repofile_path }}
+  register: epel_result
+  tags: epel
+
+- name: Install EPEL
+  yum:
+    name: "{{ epel_repo_url }}"
+    state: present
+  register: result
+  when: not epel_result.stat.exists
+  tags: epel
+
+- name: Import EPEL GPG
+  rpm_key:
+    key: "{{ epel_repo_gpg_key_url }}"
+    state: present
+  when: not epel_result.stat.exists
+  tags: epel
