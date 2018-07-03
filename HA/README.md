@@ -1,0 +1,1 @@
+pacemaker nodes all hosts in nodes ansible group

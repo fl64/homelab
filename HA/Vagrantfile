@@ -2,10 +2,10 @@
 # vi: set ft=ruby :
 
 hosts = [
-  { name: 'node1.example.com', ipaddr1: '10.0.0.10', ipaddr2: '192.168.200.10', memory: '256' },
-  { name: 'node2.exmaple.com', ipaddr1: '10.0.0.20', ipaddr2: '192.168.200.20', memory:'256' },
-  { name: 'back1.example.com', ipaddr1: '192.168.200.30', ipaddr2: nil, memory: '256' },
-  { name: 'back2.example.com', ipaddr1: '192.168.200.40', ipaddr2: nil, memory:'256' },
+  { name: 'node1', ipaddr1: '10.0.0.10', ipaddr2: '192.168.200.10', memory: '256' },
+  { name: 'node2', ipaddr1: '10.0.0.20', ipaddr2: '192.168.200.20', memory:'256' },
+  { name: 'front1', ipaddr1: '192.168.200.30', ipaddr2: nil, memory: '256' },
+  { name: 'front2', ipaddr1: '192.168.200.40', ipaddr2: nil, memory:'256' },
 ]
 
 Vagrant.configure("2") do |config|

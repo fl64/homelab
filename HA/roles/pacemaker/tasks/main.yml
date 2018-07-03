@@ -1,0 +1,61 @@
+---
+# tasks file for pacemaker
+- name: Install pacemaker
+  yum: name="{{ item }}" state=installed
+  with_items:
+  - pcs
+  - fence-agents-all
+  tags: pacemaker
+
+- name: Enable pacemaker
+  systemd:
+    name: pcsd
+    state: started
+    enabled: true
+  with_items:
+  - pcs
+  - fence-agents-all
+  tags: pacemaker
+
+- name: Create FW rules
+  firewalld:
+    immediate: true
+    service: high-availability
+    permanent: true
+    state: enabled
+  tags: pacemaker
+
+- name: Create {{ pcs_user }} user
+  user:
+    name: "{{ pcs_user }}"
+    password: "{{ pcs_user_password | mandatory | password_hash('sha512', ansible_hostname) }}"
+    update_password : always
+  tags: pacemaker
+
+- name: Authenticate all nodes
+  command: >
+    pcs cluster auth
+    {{ groups['nodes'] | join(' ') }}
+    -u {{ pcs_user }} -p {{ pcs_user_password }}
+  run_once: true
+  args:
+    creates: /var/lib/pcsd/tokens
+  #register: result
+  tags: pacemaker
+
+- name: Setup cluster
+  command: >
+    pcs cluster setup --start --name {{ pcs_cluster_name }} --force
+    {{ groups['nodes'] | join(' ') }}
+  args:
+    creates: /etc/corosync/corosync.conf
+  #register: result
+  tags: pacemaker
+
+- name: Enable cluster
+  command: pcs cluster enable --all
+  register: result
+  tags: pacemaker
+
+- debug: msg="{{ result }}"
+  tags: pacemaker

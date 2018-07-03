@@ -1,0 +1,5 @@
+---
+# vars file for pacemaker
+pcs_user: hacluster
+pcs_user_password: "P@ssw0rd"
+pcs_cluster_name: hacluster

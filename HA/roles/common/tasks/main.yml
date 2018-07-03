@@ -1,0 +1,17 @@
+---
+# tasks file for common
+
+- name: Craete local DNS
+  lineinfile:
+    path: /etc/hosts
+    regexp: '{{ item.regexp }}'
+    line: '{{ item.line }}'
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+  - { regexp: "192.168.200.10", line: "192.168.200.10 node1" }
+  - { regexp: "192.168.200.20", line: "192.168.200.20 node2" }
+  - { regexp: "192.168.200.30", line: "192.168.200.30 front1" }
+  - { regexp: "192.168.200.40", line: "192.168.200.40 front2" }
+  tags: common

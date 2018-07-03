@@ -1,0 +1,11 @@
+---
+# tasks file for nginx
+- name: Install nginx repo
+  template: src={{ item.j2 }} dest={{ item.dst }} owner={{ item.owner }} group={{ item.group }} mode=0644
+  with_items:
+  - {j2: "templates/nginx.repo.j2", dst: "/etc/yum.repos.d/nginx.repo", owner: root, group: root}
+  tags: nginx
+
+- name: install nginx
+  yum: name=nginx state=installed
+  tags: nginx
